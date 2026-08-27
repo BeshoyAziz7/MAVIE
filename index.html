@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mavmovti</title>
+  <link rel="icon" type="image/png" href="favicon_heart.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Mrs+Saint+Delafield&family=Work+Sans:wght@300;400;500&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600&family=Tajawal:wght@400;500;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Marhey:wght@400;700&family=Lemonada:wght@400;600&family=Aref+Ruqaa+Ink&family=Vibes&family=El+Messiri:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============ MUSIC TOGGLE ============ -->
+  <button class="music-toggle" id="musicToggle" aria-label="play soft music">
+    <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M9 18V5l11-2v13" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
+      <path d="M3 3l18 18" stroke-linecap="round"/>
+    </svg>
+    <svg class="icon-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M9 18V5l11-2v13" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
+    </svg>
+  </button>
+
+  <audio id="bgMusic" preload="none" src="song.mp3"></audio>
+
+  <!-- ============ HIDDEN LETTER COUNTER ============ -->
+  <button class="hl-counter" id="hlCounter" aria-label="الرسايل المخبية اللي لقيتيها">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span id="hlCounterNum">٠ / ٥</span>
+  </button>
+
+  <!-- ============ DECORATIVE LAYERS ============ -->
+  <div class="ambient-petals" id="ambientPetals" aria-hidden="true"></div>
+  <div class="cursor-trail-layer" id="cursorTrailLayer" aria-hidden="true"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress-bar" aria-hidden="true" aria-label="تقدم القصة">
+    <div class="scroll-progress-fill" id="scrollProgress"></div>
+  </div>
+
+  <!-- Spotlight Overlay -->
+  <div class="spotlight-overlay" id="spotlightOverlay" aria-hidden="true"></div>
+
+  <!-- ============ SECTION: HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-parallax" id="heroParallax">
+      <div class="hero-layer hero-dim"></div>
+      <div class="hero-layer hero-bright" id="brightLayer"></div>
+    </div>
+    <div class="hero-vignette"></div>
+    <div class="fireflies" id="fireflies"></div>
+
+    <!-- Hidden Letter #1 -->
+    <button class="hidden-letter hl-pos-1" data-letter="hero" aria-label="رسالة مخبية — دوسي عليها" title="في حاجة مخبية هنا...">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="hero-content">
+      <div class="eyebrow ar-eyebrow">حاجة بسيطة عشانك</div>
+      <div class="headline-row">
+        <h1 class="headline" id="headlineText">
+          <span class="ar ar-vibes" dir="rtl">
+            <span id="typewriterText"></span>
+            <span class="cursor-blink">|</span>
+          </span>
+        </h1>
+        <button class="headline-btn" id="headlineBtn" aria-label="show another">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M15 5 8 12l7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <p class="subtext" id="subtextText"><span class="ar-sub" dir="rtl">ألبوم كامل منك, لحظاتك الجميله والمجنونه يبخت ان كنت انا الشخص اللي بتفرج عليهم</span></p>
+    </div>
+
+    <div class="scroll-cue">
+      <span class="cue-ring" aria-hidden="true"></span>
+      <span class="cue-text">انزلي تحت يا بت</span>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: REASONS ============ -->
+  <section class="reasons">
+    <!-- Hidden Letter #2 -->
+    <button class="hidden-letter hl-pos-2" data-letter="reasons" aria-label="رسالة مخبية — دوسي عليها" title="في حاجة مخبية هنا...">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="reasons-inner">
+      <div class="reasons-eyebrow reveal ar-reasons-eyebrow">اجمل ملاك</div>
+      <h2 class="reasons-heading reveal ar-reasons-heading">ليه انا بحبك ؟</h2>
+
+      <div class="reasons-grid">
+        <!-- Card 1 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.4M12 19.6V22M22 12h-2.4M4.4 12H2M18.7 5.3l-1.7 1.7M7 17l-1.7 1.7M18.7 18.7 17 17M7 7 5.3 5.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">ضحكتك</h3>
+          <p class="ar-card-body">يتحول يومي من اوحش لاجمل حاجه لما بشوف ضحكتك</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M9 18V5l11-2v13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">عيونك</h3>
+          <p class="ar-card-body">شوفت 100 صوره و مستعد اشوف اكتر عشان اتفرج عليهم</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">رخامتك</h3>
+          <p class="ar-card-body">حتي رخامتك جميله كل تفصيله فيكي تتحب</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 9h13a3 3 0 0 1 0 6h-1" stroke-linecap="round"/><path d="M4 9v6a1 1 0 0 0 1 1h9" stroke-linecap="round"/><path d="M4 9V6M7 9V6M10 9V6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">التفاصيل الصغيرة</h3>
+          <p class="ar-card-body">طريقه كلامك و اهتمامك, حتي لو مش بتتكلمي بتبقي جميله</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 17.3 5.8 21l1.6-7L2 9.3l7.1-.6L12 2l2.9 6.7 7.1.6-5.4 4.7 1.6 7z" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">قلبك</h3>
+          <p class="ar-card-body">أطيب قلب عرفته في حياتي. مفيش اجمل منوا</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="reason-card reveal">
+          <div class="reason-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M20 14.5A8 8 0 1 1 10.5 4 6.5 6.5 0 0 0 20 14.5z" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="ar-card-title">كل نسخة منك</h3>
+          <p class="ar-card-body">وانت متعصبه بتبقي جميله وانت زعلانه حتي وانت مقموصه مفيش غلطه فيكي</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: ENVELOPE LETTERS ============ -->
+  <section class="envelopes">
+    <div class="envelopes-inner">
+      <div class="envelopes-eyebrow reveal ar-envelopes-eyebrow">رسايل ليكي</div>
+      <h2 class="envelopes-heading reveal ar-envelopes-heading">أفتحي لما...</h2>
+      <p class="envelopes-sub reveal" dir="rtl">رسايل مكتوبة من قلبي لكل لحظة بتمرّي فيها</p>
+
+      <div class="envelopes-grid">
+        <!-- Card 1: Sad -->
+        <div class="envelope-card reveal" data-index="0">
+          <div class="envelope-wrapper">
+            <div class="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-body">
+                <span class="envelope-seal">♥</span>
+                <span class="envelope-label" dir="rtl">أفتحي لما<br>تكوني زعلانه</span>
+              </div>
+            </div>
+            <div class="envelope-letter">
+              <div class="letter-content" dir="rtl">
+                <span class="letter-heart">♥</span>
+                <p class="letter-message">يا حبيبتي،</p>
+                <p class="letter-message">متعرفيش قد ايه انا بكره اشوفك زعلانه. بس افتكري دايماً اني هنا، و ان مهما كان الدنيا صعبة، انتي أقوى من أي حاجه. ضحكتك هي أجمل حاجه في الدنيا، و انا مستني النهارده اللي تبقي فيها مبسوطه عشان اشوفها تاني.</p>
+                <p class="letter-message">دايماً جنبك،</p>
+                <p class="letter-signature">~ اللي بيحبك</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Miss Me -->
+        <div class="envelope-card reveal" data-index="1">
+          <div class="envelope-wrapper">
+            <div class="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-body">
+                <span class="envelope-seal">♥</span>
+                <span class="envelope-label" dir="rtl">أفتحي لما<br>اوحشك</span>
+              </div>
+            </div>
+            <div class="envelope-letter">
+              <div class="letter-content" dir="rtl">
+                <span class="letter-heart">♥</span>
+                <p class="letter-message">يا أجمل حاجه ف حياتي،</p>
+                <p class="letter-message">لو حسيتي انك مشتاقه ليا، افتكري اني بفكر فيكي كل ثانية. كل لحظة بنكون فيها بعيد، بتخليني اشتاق ليكي أكتر. بس افتكري ان اللي بينا حاجه مختلفه، حاجه مبتتنسيش. قريب هتبقي جنبي، و هفضل احضنك لحد ما الدنيا تنسي.</p>
+                <p class="letter-message">كل حاجه ليكي،</p>
+                <p class="letter-signature">~ انتي ملاكي</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Mad -->
+        <div class="envelope-card reveal" data-index="2">
+          <div class="envelope-wrapper">
+            <div class="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-body">
+                <span class="envelope-seal">♥</span>
+                <span class="envelope-label" dir="rtl">أفتحي لما<br>تزعلي مني</span>
+              </div>
+            </div>
+            <div class="envelope-letter">
+              <div class="letter-content" dir="rtl">
+                <span class="letter-heart">♥</span>
+                <p class="letter-message">يا ست الكل،</p>
+                <p class="letter-message">لو زعلتي مني، يبقى أنا اللي غلطان. و لو في حاجه عملتها تضايقك، افتكري اني بحبك اكتر من اي حاجه و مستعد اعمل اي حاجه عشان ارضيكي. متخليش الزعل يخلي بينا، عشان انا مش هقدر اعيش من غير ضحكتك.</p>
+                <p class="letter-message">دايماً ليكي،</p>
+                <p class="letter-signature">~ اللي هيعمل اي حاجه عشانك</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Happy -->
+        <div class="envelope-card reveal" data-index="3">
+          <div class="envelope-wrapper">
+            <div class="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-body">
+                <span class="envelope-seal">♥</span>
+                <span class="envelope-label" dir="rtl">أفتحي لما<br>تكوني مبسوطه</span>
+              </div>
+            </div>
+            <div class="envelope-letter">
+              <div class="letter-content" dir="rtl">
+                <span class="letter-heart">♥</span>
+                <p class="letter-message">يا نور عيني،</p>
+                <p class="letter-message">انتي اكتر حاجه بتبسطني في الدنيا. و ضحكتك دي اللي بتخليني احس ان الدنيا كلها حلوه. افتكري دايماً ان انتي تستاهلي كل الفرحة في الدنيا، و انا هفضل جنبك عشان اشوفك مبسوطه طول العمر.</p>
+                <p class="letter-message">دائماً معاكي،</p>
+                <p class="letter-signature">~ حبيبك</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER DIVIDER II ============ -->
+  <div class="chapter-divider reveal" aria-hidden="true">
+    <div class="chapter-divider-inner">
+      <span class="chapter-line chapter-line-left"></span>
+      <div class="chapter-ornament">
+        <span class="chapter-num">II</span>
+        <span class="chapter-mark">♥</span>
+        <span class="chapter-label" dir="rtl">فصل جديد</span>
+        <span class="chapter-sub" dir="rtl">ذكرياتك</span>
+      </div>
+      <span class="chapter-line chapter-line-right"></span>
+    </div>
+  </div>
+
+  <!-- ============ SECTION: SCRAPBOOK ============ -->
+  <section class="scrapbook has-water-ripple" data-ripple-color="gold">
+    <!-- Hidden Letter #3 -->
+    <button class="hidden-letter hl-pos-3" data-letter="scrapbook" aria-label="رسالة مخبية — دوسي عليها" title="في حاجة مخبية هنا...">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="scrapbook-heading reveal" id="scrapHeading">صورك</div>
+
+    <div class="carousel-wrap">
+      <button class="carousel-btn" id="prevBtn" aria-label="previous photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="carousel-viewport">
+        <div class="polaroid-field" id="polaroidTrack">
+          <div class="polaroid reveal" data-photo="18 Pictures/1.jpg" data-caption="جنونها"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/1.jpg')"></div><span class="polaroid-cap">جنونها</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">حبيبتي وحياتي كلها</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/2.jpg" data-caption="❤ تكشيره"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/2.jpg')"></div><span class="polaroid-cap">❤ تكشيره</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤ عمري كله معاكي حلو</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/3.jpg" data-caption="...عينوها يا جدعان"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/3.jpg')"></div><span class="polaroid-cap">...عينوها يا جدعان</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">مفيش زيك في الدنيا دي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/4.jpg" data-caption="❤ حتي ضحكتها"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/4.jpg')"></div><span class="polaroid-cap">❤ حتي ضحكتها</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤ بجنن بيكي وانتي مش عارفة</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/5.jpg" data-caption="ابتسامتها ادمان"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/5.jpg')"></div><span class="polaroid-cap">ابتسامتها ادمان</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">كل يوم بحبك اكتر من اللي فات</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/6.jpg" data-caption="❤ بطه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/6.jpg')"></div><span class="polaroid-cap">❤ بطه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤ نور عنيا وسبب ضحكتي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/7.jpg" data-caption="جمالها مش طبيعي"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/7.jpg')"></div><span class="polaroid-cap">جمالها مش طبيعي</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">الحمدلله اني لقيتك</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/8.jpg" data-caption="تكشيره تانيه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/8.jpg')"></div><span class="polaroid-cap">تكشيره تانيه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤❤ ست الحسن والجمال</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/9.jpg" data-caption="❤ طه حسين"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/9.jpg')"></div><span class="polaroid-cap">❤ طه حسين</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">مبسوط اني بتاعك</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/10.jpg" data-caption="! هو في كده"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/10.jpg')"></div><span class="polaroid-cap">! هو في كده</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">! ولا حد هيحبك زيي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/11.jpg" data-caption="قمر حتي و هي مجنونه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/11.jpg')"></div><span class="polaroid-cap">قمر حتي و هي مجنونه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">قمر وقلبها اجمل</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/12.jpg" data-caption="النضاره حكايه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/12.jpg')"></div><span class="polaroid-cap">النضاره حكايه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤ عيونك سرقت عقلي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/13.jpg" data-caption="❤❤ ملكه جمال"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/13.jpg')"></div><span class="polaroid-cap">❤❤ ملكه جمال</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">مفيش حاجه تفرق بينا</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/14.jpg" data-caption="حلاوتها في حته تانيه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/14.jpg')"></div><span class="polaroid-cap">حلاوتها في حته تانيه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">حبك خلاني انسان تاني</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/15.jpg" data-caption="تكشيره تانيه بردوا"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/15.jpg')"></div><span class="polaroid-cap">تكشيره تانيه بردوا</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">❤ يا ست الملوك كلهم</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/16.jpg" data-caption="اه يا حراميه"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/16.jpg')"></div><span class="polaroid-cap">اه يا حراميه</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">حياتي بقت احلى بيكي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/17.jpg" data-caption="جميله اوي وانت هابله كده"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/17.jpg')"></div><span class="polaroid-cap">جميله اوي وانت هابله كده</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">مين زيك يا اجمل حاجة عندي</p></div>
+          </div></div>
+          <div class="polaroid reveal" data-photo="18 Pictures/18.jpg" data-caption="....انا اسف"><div class="polaroid-flip">
+            <div class="polaroid-face polaroid-front"><div class="polaroid-photo" style="background-image:url('18 Pictures/18.jpg')"></div><span class="polaroid-cap">....انا اسف</span></div>
+            <div class="polaroid-face polaroid-back" dir="rtl"><span class="polaroid-back-date">تاريخ الصورة</span><p class="polaroid-back-text">....وهفضل احبك لحد ما الدنيا تخلص</p></div>
+          </div></div>
+        </div>
+      </div>
+
+      <button class="carousel-btn" id="nextBtn" aria-label="next photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER DIVIDER III ============ -->
+  <div class="chapter-divider reveal" aria-hidden="true">
+    <div class="chapter-divider-inner">
+      <span class="chapter-line chapter-line-left"></span>
+      <div class="chapter-ornament">
+        <span class="chapter-num">III</span>
+        <span class="chapter-mark">♥</span>
+        <span class="chapter-label" dir="rtl">فصل جديد</span>
+        <span class="chapter-sub" dir="rtl">حكايتنا</span>
+      </div>
+      <span class="chapter-line chapter-line-right"></span>
+    </div>
+  </div>
+
+  <!-- ============ SECTION: OUR STORY ============ -->
+  <section class="story">
+    <div class="story-eyebrow reveal ar-eyebrow">تايم لاين حبنا</div>
+    <h2 class="story-heading reveal">حكايتنا</h2>
+
+    <div class="story-stage reveal" id="storyStage">
+      <button class="story-orb" id="storyOrb" aria-label="tap to reveal the next moment">♥</button>
+
+      <div class="story-content" id="storyContent">
+        <div class="story-date" id="storyDate"></div>
+        <p class="story-message" id="storyMessage"></p>
+      </div>
+    </div>
+
+    <div class="story-recap reveal" id="storyRecap" hidden></div>
+  </section>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox">
+    <button class="carousel-btn lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="lightbox-frame">
+      <button class="lightbox-close" id="lightboxClose" aria-label="close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="lightbox-photo" id="lightboxPhoto"></div>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+
+    <button class="carousel-btn lightbox-nav lightbox-next" id="lightboxNext" aria-label="next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ============ CHAPTER DIVIDER IV ============ -->
+  <div class="chapter-divider reveal" aria-hidden="true">
+    <div class="chapter-divider-inner">
+      <span class="chapter-line chapter-line-left"></span>
+      <div class="chapter-ornament">
+        <span class="chapter-num">IV</span>
+        <span class="chapter-mark">♥</span>
+        <span class="chapter-label" dir="rtl">فصل التسلية</span>
+        <span class="chapter-sub" dir="rtl">لعبة الذكريات</span>
+      </div>
+      <span class="chapter-line chapter-line-right"></span>
+    </div>
+  </div>
+
+  <!-- ============ SECTION: MEMORY GAME ============ -->
+  <section class="memory-game" id="memoryGame">
+    <div class="memory-game-glow" aria-hidden="true"></div>
+
+    <!-- Hidden Letter #4 -->
+    <button class="hidden-letter hl-pos-4" data-letter="memory" aria-label="رسالة مخبية — دوسي عليها" title="في حاجة مخبية هنا...">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="memory-game-inner">
+      <p class="memory-game-eyebrow reveal">اختبري ذاكرتك يا جميلة</p>
+      <h2 class="memory-game-heading reveal">العبي معايا يا ملكتي ♥</h2>
+      <p class="memory-game-sub reveal" dir="rtl">جمّعي صورتين شبه بعض عشان تفتحي كلام ورسايل من قلبي ليكي!</p>
+
+      <div class="memory-stats reveal">
+        <span class="memory-stat-item" dir="rtl">الحركات: <span id="memoryMoves">0</span></span>
+        <span class="memory-stat-item" dir="rtl">المطابقات: <span id="memoryMatches">0/6</span></span>
+      </div>
+
+      <div class="memory-grid reveal" id="memoryGrid"></div>
+
+      <div class="memory-message-holder">
+        <p id="memoryActiveMessage" class="reveal-message-text" dir="rtl"></p>
+      </div>
+
+      <div class="memory-success-msg" id="memorySuccess" hidden>
+        <div class="success-heart" aria-hidden="true">♥</div>
+        <p class="success-title" dir="rtl">يا ست البنات، كسبتي!</p>
+        <p class="success-text" id="memorySuccessText" dir="rtl"></p>
+        <button class="btn-yes ar-btn" id="resetMemoryBtn" style="margin-top: 20px;">العبي تاني ♥</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: PROPOSAL ============ -->
+  <section class="proposal">
+    <div class="proposal-eyebrow reveal ar-eyebrow">سؤال أخير...</div>
+    <h2 class="proposal-heading reveal">
+      <span class="ar-prop">هتفضلي بتاعتي،<br><em>للأبد</em>؟</span>
+    </h2>
+
+    <div class="question-stage reveal" id="stage">
+      <div class="question-buttons" id="questionButtons">
+        <button class="btn-yes ar-btn" id="yesBtn">أيوه<span aria-hidden="true">♥</span></button>
+        <button class="btn-no ar-btn" id="noBtn">لأ</button>
+      </div>
+
+      <div class="proposal-result" id="proposalResult" hidden>
+        <div class="result-heart" aria-hidden="true">♥</div>
+        <p class="result-message" dir="rtl">
+          من اول يوم شوفتك فيه و انا عارف ان هحبك بسبب جمالك و طريقتك اللي مش موجوده عند اي بنت، <br>
+          <span class="result-name">يا اجمل حاجه ف حياتي</span>
+        </p>
+        <p class="result-signature" dir="rtl"><span class="signature-date">~ دايمًا جميله</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: TOGETHER ============ -->
+  <section class="together" id="together">
+    <div class="together-glow" aria-hidden="true"></div>
+    <div class="together-inner">
+      <p class="together-eyebrow reveal">من أول رسالة</p>
+      <h2 class="together-heading reveal"><span class="ar-together-heading">بقالنا <em></em></span></h2>
+      <p class="together-sub reveal">وكل ثانية منهم بتقربني منك أكتر</p>
+
+      <div class="together-clock reveal" aria-live="polite">
+        <div class="together-unit">
+          <span class="together-num" id="togetherDays">0</span>
+          <span class="together-unit-label ar-eyebrow">يوم</span>
+        </div>
+        <span class="together-sep" aria-hidden="true">♥</span>
+        <div class="together-unit">
+          <span class="together-num" id="togetherHours">0</span>
+          <span class="together-unit-label ar-eyebrow">ساعة</span>
+        </div>
+        <span class="together-sep" aria-hidden="true">♥</span>
+        <div class="together-unit">
+          <span class="together-num" id="togetherMins">0</span>
+          <span class="together-unit-label ar-eyebrow">دقيقة</span>
+        </div>
+      </div>
+
+      <p class="together-since reveal">من ٢٣ نوفمبر ٢٠٢٥</p>
+      <p class="together-foot reveal" dir="rtl">وكل يوم بيكي بيبقى أحلى من اللي قبله ♥</p>
+
+      <svg class="together-heart reveal" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+
+      <p class="together-final reveal" dir="rtl">— <span class="final-name">يا ملكتي</span> —</p>
+      <p class="together-final-date reveal" dir="rtl">يوليو ٢٠٢٦</p>
+    </div>
+  </section>
+
+  <!-- ============ CHAPTER DIVIDER V ============ -->
+  <div class="chapter-divider reveal" aria-hidden="true">
+    <div class="chapter-divider-inner">
+      <span class="chapter-line chapter-line-left"></span>
+      <div class="chapter-ornament">
+        <span class="chapter-num">V</span>
+        <span class="chapter-mark">♥</span>
+        <span class="chapter-label" dir="rtl">فصل الصور</span>
+        <span class="chapter-sub" dir="rtl">معرض ذكرياتك</span>
+      </div>
+      <span class="chapter-line chapter-line-right"></span>
+    </div>
+  </div>
+
+  <!-- ============ SECTION: FLOATING PHOTO GALLERY ============ -->
+  <section class="float-gallery" id="floatGallery">
+    <div class="fg-glow" aria-hidden="true"></div>
+
+    <!-- Hidden Letter #5 -->
+    <button class="hidden-letter hl-pos-5" data-letter="gallery" aria-label="رسالة مخبية — دوسي عليها" title="في حاجة مخبية هنا...">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="fg-inner">
+      <p class="fg-eyebrow reveal" dir="rtl">صور</p>
+      <h2 class="fg-heading reveal" dir="rtl">معرض ذكرياتك</h2>
+      <p class="fg-sub reveal" dir="rtl">دوسي على أي صورة تكبر قدامك، أو سيبي الصور تعدّي عليكي واحدة واحدة ♥</p>
+
+      <div class="fg-toolbar reveal">
+        <button class="fg-slideshow-btn" id="fgSlideshowBtn" dir="rtl">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5.5v13l11-6.5-11-6.5z"/>
+          </svg>
+          شغّلي السلايد شو
+        </button>
+        <span class="fg-hint" dir="rtl">١٨ صورة ليكي انتي بس</span>
+      </div>
+
+      <div class="fg-grid reveal" id="fgGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ FLOATING GALLERY VIEWER ============ -->
+  <div class="fg-viewer" id="fgViewer" role="dialog" aria-modal="true" aria-label="معرض الصور">
+    <div class="fg-blur" id="fgBlurA" aria-hidden="true"></div>
+    <div class="fg-blur" id="fgBlurB" aria-hidden="true"></div>
+    <div class="fg-scrim" aria-hidden="true"></div>
+
+    <button class="fg-close" id="fgClose" aria-label="اقفلي">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <button class="fg-btn fg-side fg-side-prev" id="fgPrevSide" aria-label="السابقة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="fg-btn fg-side fg-side-next" id="fgNextSide" aria-label="التالية">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="fg-stage">
+      <div class="fg-frame" id="fgFrame">
+        <div class="fg-frame-photo">
+          <div class="fg-layer" id="fgLayerA"></div>
+          <div class="fg-layer" id="fgLayerB"></div>
+        </div>
+        <p class="fg-frame-caption" id="fgFrameCaption" dir="rtl"></p>
+      </div>
+
+      <p class="fg-title" id="fgTitle" dir="rtl"></p>
+      <p class="fg-note" id="fgNote" dir="rtl"></p>
+
+      <div class="fg-controls">
+        <div class="fg-progress"><span id="fgProgressBar"></span></div>
+        <div class="fg-controls-row">
+          <button class="fg-btn" id="fgPrev" aria-label="السابقة">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="fg-btn fg-btn-play" id="fgPlay" aria-label="تشغيل السلايد شو">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5.5v13l11-6.5-11-6.5z"/>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/>
+            </svg>
+          </button>
+          <button class="fg-btn" id="fgNext" aria-label="التالية">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <span class="fg-counter" id="fgCounter" dir="ltr">1 / 18</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION: LOCKED FUTURE LETTER ============ -->
+  <section class="future-letter" id="futureLetter">
+    <div class="future-letter-glow" aria-hidden="true"></div>
+    <div class="future-letter-inner">
+      <p class="future-letter-eyebrow ar-eyebrow reveal">رسالة مقفولة</p>
+      <h2 class="future-letter-heading reveal">افتحيها يوم عيد ميلادك</h2>
+
+      <div class="letter-locked" id="letterLocked">
+        <div class="letter-seal" id="letterSeal" aria-hidden="true">
+          <div class="seal-half seal-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="seal-half seal-right">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="letter-countdown" id="letterCountdown" aria-live="polite">
+          <div class="letter-unit">
+            <span class="letter-num" id="letterDays">0</span>
+            <span class="letter-unit-label ar-eyebrow">يوم</span>
+          </div>
+          <div class="letter-unit">
+            <span class="letter-num" id="letterHours">0</span>
+            <span class="letter-unit-label ar-eyebrow">ساعة</span>
+          </div>
+          <div class="letter-unit">
+            <span class="letter-num" id="letterMins">0</span>
+            <span class="letter-unit-label ar-eyebrow">دقيقة</span>
+          </div>
+          <div class="letter-unit">
+            <span class="letter-num" id="letterSecs">0</span>
+            <span class="letter-unit-label ar-eyebrow">ثانية</span>
+          </div>
+        </div>
+
+        <p class="letter-locked-note">يوم ٢٣ نوفمبر ♥</p>
+      </div>
+
+      <div class="letter-unlocked" id="letterUnlocked" hidden>
+        <div class="letter-paper" id="letterPaper">
+          <div class="letter-text" dir="rtl">
+            <p class="letter-line">كل سنه وانتي طيبه يا اجمل حاجه حصلتلي في حياتي، بجد انتي شخص جميل اوي و طيب ويستاهل كل حاجه حلوه في حياتو اكيد.</p>
+            <p class="letter-line">وقت متفتحي الرساله دي انا معرفش هنكون مع بعض ولا لا، يارب نكون لسه مكمليين في طريقنا سوا.</p>
+            <p class="letter-line">عشان انتي جيتي نورتي حياتي فجأه و خليتي يومي يبقا حلو بيكي مش بحد تاني.</p>
+            <p class="letter-line">كل سنه وانتي جميله يا حبيب قلبي و اشوفك دايما مبسوط و بتحقق كل احلامك.</p>
+            <p class="letter-line">انا في ايام اكيد ممكن اكون زعلتك فيها بس مش عايزك تزعلي مني، حقك عليا، و يارب تفضلي ف حياتي لاخر يوم ف عمري و عيني تقفل علي عيونك.</p>
+            <p class="letter-line">كل سنه وانتي طيبه يا اغلا جوهره ربنا كرمني بيها.</p>
+          </div>
+          <p class="letter-signature letter-line" dir="rtl">— دايمًا بتاعتي ♥</p>
+          <button class="read-again-btn" id="readAgainBtn" dir="rtl">📖 إقرأيها تاني</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HIDDEN LOVE LETTER MODAL ============ -->
+  <div class="dl-modal" id="dlModal" role="dialog" aria-modal="true" aria-label="رسالة مخبية">
+    <div class="dl-backdrop" id="dlBackdrop"></div>
+
+    <button class="dl-close" id="dlClose" aria-label="اقفلي">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="dl-stage" id="dlStage">
+      <!-- Wax Seal -->
+      <div class="dl-seal-stage" id="dlSealStage">
+        <p class="dl-seal-hint" id="dlSealHint" dir="rtl">دوسي على الشمعة عشان تكسريها ♥</p>
+        <button class="dl-wax" id="dlWax" aria-label="اكسري الشمع عشان تفتحي الرسالة">
+          <span class="dl-wax-half dl-wax-half-l"><span class="dl-wax-disc"><span class="dl-wax-mono">ح</span></span></span>
+          <span class="dl-wax-half dl-wax-half-r"><span class="dl-wax-disc"><span class="dl-wax-mono">ح</span></span></span>
+          <span class="dl-crack-line" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- The Letter -->
+      <div class="dl-letter" id="dlLetter">
+        <div class="dl-paper" id="dlPaper">
+          <div class="dl-paper-inner">
+            <h3 class="dl-letter-title" id="dlTitle" dir="rtl"></h3>
+            <div class="dl-letter-rule" aria-hidden="true"></div>
+            <div class="dl-letter-body" id="dlBody" dir="rtl"></div>
+            <p class="dl-sign" id="dlSign" dir="rtl"></p>
+          </div>
+        </div>
+
+        <!-- Reply Box -->
+        <div class="dl-reply">
+          <p class="dl-reply-label" dir="rtl">ردّي عليا هنا ♥</p>
+          <p class="dl-reply-note" dir="rtl">كلامك بيتحفظ على الجهاز ده، هلاقيه كل ما افتح الرسالة</p>
+          <textarea class="dl-textarea" id="dlReply" dir="rtl" placeholder="اكتبي اي حاجة في بالك..." aria-label="ردك على الرسالة"></textarea>
+          <div class="dl-reply-row">
+            <button class="dl-save" id="dlSave" dir="rtl">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              احفظي ردي
+            </button>
+            <button class="dl-clear" id="dlClear" dir="rtl">امسحي</button>
+          </div>
+          <p class="dl-saved-flag" id="dlSavedFlag" dir="rtl"></p>
+        </div>
+
+        <!-- All Found Celebration -->
+        <div class="dl-allfound" id="dlAllFound" hidden>
+          <div class="dl-allfound-heart" aria-hidden="true">♥</div>
+          <p class="dl-allfound-text" dir="rtl">لقيتي الرسايل الخمسة كلها يا ذكية ♥<br>كل واحدة فيهم كانت مخبية عشانك انتي بس</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="script.js"></script>
+</body>
+</html>

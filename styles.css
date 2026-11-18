@@ -2742,7 +2742,7 @@ body::after{
 }
 
 /* ---------- Typography polish ---------- */
-:is(h1,h2,h3,.scrapbook-heading,.fg-heading){ text-wrap: balance; }
+:is(h2,h3,.scrapbook-heading,.fg-heading){ text-wrap: balance; }
 .reasons-heading,
 .envelopes-heading,
 .story-heading,
@@ -2757,13 +2757,10 @@ body::after{
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 18px rgba(227,181,103,0.20));
 }
-.headline .ar-vibes{
-  background: linear-gradient(100deg, var(--gold-soft), #fffaf0 38%, var(--rose) 72%, var(--gold-soft));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(232,144,158,0.28));
+/* Keep the typewriter headline solid so multi-line text never clips */
+.headline .ar-vibes,
+.headline .ar-vibes *{
+  -webkit-text-fill-color: currentColor;
 }
 
 /* ---------- Reveal: softer, deeper, cinematic ---------- */
@@ -2865,7 +2862,6 @@ body::after{
   .reveal, .reveal.in{ filter: none !important; transform: none !important; }
   .polaroid-photo, .fg-photo{ opacity: 1 !important; transform: none !important; transition: none !important; }
   .btn-yes{ animation: none !important; filter: none !important; }
-  .headline .ar-vibes,
   .reasons-heading, .envelopes-heading, .story-heading, .memory-game-heading,
   .future-letter-heading, .scrapbook-heading, .fg-heading{ filter: none !important; }
 }

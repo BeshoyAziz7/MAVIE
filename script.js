@@ -1695,7 +1695,7 @@ revealEls.forEach((el, i) => {
     { src: "18 Pictures/Float7.jpg", cap: "الضحكة اللي بتنور", note: "❤ بحب اوي ضحكتك دي" },
     { src: "18 Pictures/Float8.jpg", cap: "❤ شعرها الهيصة", note: "كده كده انتي اجمل واحدة" },
     { src: "18 Pictures/Float9.jpg", cap: "سيلفي نص الليل", note: "❤ نور الاوضة كلها منك انتي" },
-    { src: "18 Pictures/Float10.jpg", cap: "❤ النضارة والضحكة", note: "الضحكة دي تكفيني العمر كله" },
+    { src: "18 Pictures/Float10.jpg", cap: "❤ الضحكة", note: "الضحكة دي تكفيني العمر كله" },
     { src: "18 Pictures/Float11.jpg", cap: "الاسانسير محظوظ", note: "❤ كيوت بشكل مش طبيعي" },
     { src: "18 Pictures/Float12.jpg", cap: "قاعدة على راحتها", note: "اهدى منظر شفته في حياتي ❤" },
     { src: "18 Pictures/Float13.jpg", cap: "❤ كريسماس وبرد", note: "الشجرة اتزينت عشانك انتي" },

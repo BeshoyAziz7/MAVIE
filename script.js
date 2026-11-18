@@ -9,6 +9,45 @@ const hero = document.getElementById('hero');
 requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('loaded')));
 
 /* ============================================
+    1b. SMOOTH SCROLL + SCROLL LOCK HELPER
+    ============================================ */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lenis = null;
+
+if (!prefersReducedMotion && typeof window.Lenis !== 'undefined') {
+  lenis = new window.Lenis({
+    duration: 1.15,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 0.9,
+    touchMultiplier: 1.4,
+    autoResize: true
+  });
+
+  const lenisRaf = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(lenisRaf);
+  };
+  requestAnimationFrame(lenisRaf);
+}
+
+function setScrollLock(locked) {
+  document.body.style.overflow = locked ? 'hidden' : '';
+  if (lenis) {
+    if (locked) lenis.stop();
+    else lenis.start();
+  }
+}
+
+function scrollToEl(el, options = {}) {
+  if (lenis) {
+    lenis.scrollTo(el, Object.assign({ offset: -window.innerHeight / 2, duration: 1.2 }, options));
+  } else {
+    el.scrollIntoView(Object.assign({ behavior: 'smooth', block: 'center' }, options));
+  }
+}
+
+/* ============================================
    2. TYPEWRITER EFFECT FOR HERO HEADLINE
    ============================================ */
 const typewriterText = document.getElementById('typewriterText');
@@ -685,6 +724,7 @@ function showStoryRecap() {
    ============================================ */
 const heroParallax = document.getElementById('heroParallax');
 const parallaxCards = document.querySelectorAll('.reason-card');
+const parallaxGlows = document.querySelectorAll('.fg-glow, .together-glow, .memory-game-glow, .future-letter-glow');
 let parallaxTicking = false;
 
 function updateParallax() {
@@ -697,6 +737,13 @@ function updateParallax() {
     const distanceFromCenter = (window.innerHeight / 2) - (rect.top + rect.height / 2);
     const drift = Math.max(-26, Math.min(26, distanceFromCenter * speed));
     card.style.setProperty('--drift', drift.toFixed(1) + 'px');
+  });
+
+  parallaxGlows.forEach((glow) => {
+    const sectionRect = glow.parentElement.getBoundingClientRect();
+    const distanceFromCenter = (window.innerHeight / 2) - (sectionRect.top + sectionRect.height / 2);
+    const shift = Math.max(-40, Math.min(40, distanceFromCenter * 0.035));
+    glow.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(1.06)`;
   });
 
   parallaxTicking = false;
@@ -730,12 +777,12 @@ function openLightbox(index) {
   lightboxPhoto.style.backgroundImage = `url('${item.dataset.photo}')`;
   lightboxCaption.textContent = item.dataset.caption || '';
   lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  setScrollLock(true);
 }
 
 function closeLightbox() {
   lightbox.classList.remove('active');
-  document.body.style.overflow = '';
+  setScrollLock(false);
 }
 
 allPolaroids.forEach((item, index) => {
@@ -1511,7 +1558,7 @@ revealEls.forEach((el, i) => {
     replyEl.value = replies[key] || '';
 
     modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    setScrollLock(true);
     stage.scrollTop = 0;
     setTimeout(() => wax.focus({ preventScroll: true }), 120);
 
@@ -1562,7 +1609,7 @@ revealEls.forEach((el, i) => {
 
   function closeModal() {
     modal.classList.remove('open');
-    document.body.style.overflow = '';
+    setScrollLock(false);
     const back = modal._returnTo;
     if (back) setTimeout(() => back.focus({ preventScroll: true }), 80);
   }
@@ -1624,7 +1671,7 @@ revealEls.forEach((el, i) => {
   counter.addEventListener('click', () => {
     const next = seals.find(s => !found[s.dataset.letter]) || seals[0];
     if (!next) return;
-    next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    scrollToEl(next);
     next.classList.remove('found');
     void next.offsetWidth;
     if (found[next.dataset.letter]) next.classList.add('found');
@@ -1774,7 +1821,7 @@ revealEls.forEach((el, i) => {
   function openViewer(i, autoplay) {
     show(i, false);
     viewer.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    setScrollLock(true);
     if (autoplay) play(); else stop();
     closeBtn.focus({ preventScroll: true });
   }
@@ -1782,7 +1829,7 @@ revealEls.forEach((el, i) => {
   function closeViewer() {
     stop();
     viewer.classList.remove('open');
-    document.body.style.overflow = '';
+    setScrollLock(false);
     cards.forEach(c => c.classList.remove('is-current'));
     const back = cards[index];
     if (back) back.focus({ preventScroll: true });
@@ -1933,4 +1980,49 @@ revealEls.forEach((el, i) => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (Math.random() < 0.22) spawn(e);
   }, { passive: true });
+})();
+
+/* ============================================
+    26. IMAGE REVEAL — FADE PHOTOS IN WHEN READY
+    ============================================ */
+(function() {
+  document.querySelectorAll('.polaroid-photo').forEach((el) => {
+    const url = getComputedStyle(el).backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+    if (!url || url === 'none') return;
+    const reveal = () => el.classList.add('loaded');
+    const img = new Image();
+    img.onload = reveal;
+    img.onerror = reveal;
+    img.src = url;
+    if (img.complete) reveal();
+  });
+
+  document.querySelectorAll('.fg-photo').forEach((img) => {
+    const reveal = () => img.classList.add('loaded');
+    if (img.complete) reveal();
+    else {
+      img.addEventListener('load', reveal, { once: true });
+      img.addEventListener('error', reveal, { once: true });
+    }
+  });
+})();
+
+/* ============================================
+    27. MAGNETIC MICRO-INTERACTIONS
+    ============================================ */
+(function() {
+  if (prefersReducedMotion || window.matchMedia('(pointer: coarse)').matches) return;
+
+  const selectors = '.headline-btn, .carousel-btn, .fg-btn, .fg-slideshow-btn, .read-again-btn, .dl-save, .btn-yes, .music-toggle, .hl-counter';
+  document.querySelectorAll(selectors).forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 9;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 9;
+      el.style.translate = `${x.toFixed(2)}px ${y.toFixed(2)}px`;
+    });
+    el.addEventListener('pointerleave', () => {
+      el.style.translate = '';
+    });
+  });
 })();

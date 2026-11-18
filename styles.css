@@ -2666,3 +2666,206 @@ html {
    MISC UTILITIES & OVERRIDES
    ===================================================== */
 .ar-eyebrow{ font-family: 'Tajawal', sans-serif; font-weight: 700; direction: rtl; unicode-bidi: isolate; letter-spacing: normal; }
+
+/* =====================================================
+   MASTER POLISH — ATMOSPHERE, DEPTH & SMOOTHNESS
+   (Appended as overrides so the original structure stays intact)
+   ===================================================== */
+
+/* ---------- Smooth scroll engine (Lenis) ---------- */
+html.lenis, html.lenis body{ height:auto; }
+.lenis.lenis-smooth{ scroll-behavior:auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
+.lenis.lenis-stopped{ overflow:hidden; }
+
+/* ---------- Living atmospheric backdrop ---------- */
+body{
+  position: relative;
+  z-index: 0;
+  background: var(--bg-deep-2);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+body::before,
+body::after{
+  content:"";
+  position: fixed;
+  pointer-events: none;
+}
+body::before{
+  inset: -12%;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 52% 46% at 12% 6%, rgba(232,144,158,0.13) 0%, transparent 68%),
+    radial-gradient(ellipse 46% 40% at 88% 20%, rgba(227,181,103,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 78% 62%, rgba(128,76,124,0.12) 0%, transparent 72%),
+    radial-gradient(ellipse 70% 55% at 22% 92%, rgba(232,144,158,0.08) 0%, transparent 74%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-deep-2) 45%, #100b16 100%);
+  animation: auroraDrift 26s ease-in-out infinite;
+  will-change: transform;
+}
+body::after{
+  inset: 0;
+  z-index: -1;
+  opacity: 0.045;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes auroraDrift{
+  0%,100%{ transform: translate3d(0,0,0) scale(1); }
+  50%{ transform: translate3d(2.5%, -1.5%, 0) scale(1.07); }
+}
+
+/* Let the aurora breathe through the sections */
+.hero,
+.reasons,
+.chapter-divider,
+.envelopes,
+.scrapbook,
+.story,
+.proposal,
+.together,
+.memory-game,
+.float-gallery,
+.future-letter{ background: transparent; }
+
+/* Soft glowing chapter seams */
+.reasons::before,
+.proposal::before,
+.together::before,
+.future-letter::before,
+.memory-game::before,
+.float-gallery::before{
+  width: 2px;
+  box-shadow: 0 0 18px rgba(227,181,103,0.55), 0 0 34px rgba(232,144,158,0.28);
+}
+
+/* ---------- Typography polish ---------- */
+:is(h1,h2,h3,.scrapbook-heading,.fg-heading){ text-wrap: balance; }
+.reasons-heading,
+.envelopes-heading,
+.story-heading,
+.memory-game-heading,
+.future-letter-heading,
+.scrapbook-heading,
+.fg-heading{
+  background: linear-gradient(115deg, #fff6e4 0%, var(--gold-soft) 26%, var(--rose) 60%, var(--gold-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px rgba(227,181,103,0.20));
+}
+.headline .ar-vibes{
+  background: linear-gradient(100deg, var(--gold-soft), #fffaf0 38%, var(--rose) 72%, var(--gold-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(232,144,158,0.28));
+}
+
+/* ---------- Reveal: softer, deeper, cinematic ---------- */
+.reveal{
+  opacity: 0;
+  filter: blur(7px);
+  transform: translateY(34px) scale(0.985);
+  transition:
+    opacity 0.95s cubic-bezier(.22,.61,.36,1),
+    transform 0.95s cubic-bezier(.22,.61,.36,1),
+    filter 0.95s cubic-bezier(.22,.61,.36,1);
+}
+.reveal.in{
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- Glass surfaces ---------- */
+.reason-card,
+.together-unit,
+.letter-unit,
+.memory-stat-item,
+.dl-reply,
+.fg-slideshow-btn,
+.dl-save{
+  background: linear-gradient(160deg, rgba(247,240,230,0.075) 0%, rgba(247,240,230,0.022) 100%);
+  border-color: rgba(240,209,156,0.18);
+  box-shadow:
+    0 20px 44px -26px rgba(232,144,158,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.letter-unit{ transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+.letter-unit:hover{
+  transform: translateY(-5px);
+  border-color: rgba(232,144,158,0.4);
+  box-shadow: 0 24px 46px -20px rgba(232,144,158,0.5);
+}
+
+/* ---------- Photo load-in polish ---------- */
+.polaroid-photo{
+  opacity: 0;
+  transform: scale(1.035);
+  transition:
+    opacity 0.8s ease,
+    transform 1.1s cubic-bezier(.22,.61,.36,1),
+    filter 0.4s ease;
+}
+.polaroid-photo.loaded{ opacity: 1; transform: scale(1); }
+.fg-photo{
+  opacity: 0;
+  transition:
+    opacity 0.8s ease,
+    transform 0.55s cubic-bezier(.22,.61,.36,1),
+    filter 0.4s ease;
+}
+.fg-photo.loaded{ opacity: 1; }
+
+/* ---------- Proposal glow ---------- */
+.btn-yes{
+  animation: yesAura 3s ease-in-out infinite;
+}
+@keyframes yesAura{
+  0%,100%{ filter: drop-shadow(0 0 8px rgba(232,144,158,0.35)) drop-shadow(0 0 14px rgba(227,181,103,0.18)); }
+  50%{ filter: drop-shadow(0 0 16px rgba(232,144,158,0.6)) drop-shadow(0 0 28px rgba(227,181,103,0.3)); }
+}
+
+/* ---------- Magnetic-friendly transitions ---------- */
+.headline-btn,
+.carousel-btn,
+.fg-btn,
+.fg-slideshow-btn,
+.read-again-btn,
+.dl-save,
+.btn-yes,
+.music-toggle,
+.hl-counter{
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.35s ease,
+    transform 0.25s ease,
+    translate 0.28s cubic-bezier(.22,.61,.36,1);
+}
+
+/* ---------- Accessible focus ---------- */
+:where(a,button,textarea,input,[tabindex]):focus-visible{
+  outline: 2px solid rgba(240,209,156,0.9);
+  outline-offset: 4px;
+}
+
+/* ---------- Reduced-motion safety for new effects ---------- */
+@media (prefers-reduced-motion: reduce){
+  body::before{ animation: none !important; }
+  .reveal, .reveal.in{ filter: none !important; transform: none !important; }
+  .polaroid-photo, .fg-photo{ opacity: 1 !important; transform: none !important; transition: none !important; }
+  .btn-yes{ animation: none !important; filter: none !important; }
+  .headline .ar-vibes,
+  .reasons-heading, .envelopes-heading, .story-heading, .memory-game-heading,
+  .future-letter-heading, .scrapbook-heading, .fg-heading{ filter: none !important; }
+}

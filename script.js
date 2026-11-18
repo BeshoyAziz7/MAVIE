@@ -1931,6 +1931,30 @@ revealEls.forEach((el, i) => {
 })();
 
 /* ============================================
+   23b. PHOTO TILT — FLOATING POLAROID DEPTH
+   ============================================ */
+(function() {
+  if (prefersReducedMotion || window.matchMedia('(pointer: coarse)').matches) return;
+
+  document.querySelectorAll('.polaroid, .fg-slot').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      const currentRotate = (card.style.getPropertyValue('--r') || '0deg');
+      card.style.transform = `perspective(1000px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg) rotate(${currentRotate}) translateY(-8px) scale(1.025)`;
+      card.style.boxShadow = '0 42px 70px -20px rgba(0,0,0,0.8), 0 0 30px -6px rgba(232,144,158,0.45)';
+      card.style.zIndex = '4';
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+      card.style.zIndex = '';
+    });
+  });
+})();
+
+/* ============================================
    24. SCROLL PROGRESS INDICATOR
    ============================================ */
 (function() {
@@ -2005,6 +2029,46 @@ revealEls.forEach((el, i) => {
       img.addEventListener('error', reveal, { once: true });
     }
   });
+})();
+
+/* ============================================
+    26b. STORYBOOK SKY — LIVING STARS & BOKEH
+    ============================================ */
+(function() {
+  if (prefersReducedMotion) return;
+  const sky = document.getElementById('skyLayer');
+  if (!sky) return;
+
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < 26; i++) {
+    const star = document.createElement('span');
+    star.className = 'sky-star';
+    const size = (1 + Math.random() * 2.4).toFixed(1);
+    star.style.left = (Math.random() * 100).toFixed(2) + '%';
+    star.style.top = (Math.random() * 100).toFixed(2) + '%';
+    star.style.setProperty('--s', size + 'px');
+    star.style.setProperty('--o', (0.3 + Math.random() * 0.6).toFixed(2));
+    star.style.setProperty('--d', (2.5 + Math.random() * 4).toFixed(1) + 's');
+    star.style.setProperty('--delay', (Math.random() * 5).toFixed(1) + 's');
+    star.style.setProperty('--fd', (18 + Math.random() * 24).toFixed(1) + 's');
+    frag.appendChild(star);
+  }
+
+  for (let i = 0; i < 8; i++) {
+    const bokeh = document.createElement('span');
+    bokeh.className = 'sky-bokeh';
+    const size = Math.round(90 + Math.random() * 160);
+    bokeh.style.left = (Math.random() * 100).toFixed(2) + '%';
+    bokeh.style.top = (Math.random() * 100).toFixed(2) + '%';
+    bokeh.style.setProperty('--b', size + 'px');
+    bokeh.style.setProperty('--bo', (0.04 + Math.random() * 0.06).toFixed(3));
+    bokeh.style.setProperty('--bd', (24 + Math.random() * 26).toFixed(1) + 's');
+    bokeh.style.setProperty('--bdelay', (Math.random() * 10).toFixed(1) + 's');
+    frag.appendChild(bokeh);
+  }
+
+  sky.appendChild(frag);
 })();
 
 /* ============================================

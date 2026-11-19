@@ -16,10 +16,11 @@ let lenis = null;
 
 if (!prefersReducedMotion && typeof window.Lenis !== 'undefined') {
   lenis = new window.Lenis({
-    duration: 1.15,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    // Lerp-based smoothing reacts to each wheel tick instead of restarting a
+    // long 1.15s animation every time, which makes scrolling feel heavy/laggy.
+    lerp: 0.12,
     smoothWheel: true,
-    wheelMultiplier: 0.9,
+    wheelMultiplier: 1,
     touchMultiplier: 1.4,
     autoResize: true
   });
@@ -728,20 +729,26 @@ const parallaxGlows = document.querySelectorAll('.fg-glow, .together-glow, .memo
 let parallaxTicking = false;
 
 function updateParallax() {
-  const heroRect = hero.getBoundingClientRect();
-  heroParallax.style.transform = `translateY(${heroRect.top * -0.15}px)`;
+  // Read all geometry first, then write all styles. Interleaving reads/writes
+  // forces a synchronous layout on every scroll frame and causes visible jank.
+  const heroTop = hero.getBoundingClientRect().top;
+  const cardRects = Array.from(parallaxCards, card => card.getBoundingClientRect());
+  const glowRects = Array.from(parallaxGlows, glow => glow.parentElement.getBoundingClientRect());
+  const viewportMid = window.innerHeight / 2;
+
+  heroParallax.style.transform = `translateY(${(heroTop * -0.15).toFixed(1)}px)`;
 
   parallaxCards.forEach((card, i) => {
-    const rect = card.getBoundingClientRect();
+    const rect = cardRects[i];
     const speed = 0.05 + (i % 3) * 0.03;
-    const distanceFromCenter = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+    const distanceFromCenter = viewportMid - (rect.top + rect.height / 2);
     const drift = Math.max(-26, Math.min(26, distanceFromCenter * speed));
     card.style.setProperty('--drift', drift.toFixed(1) + 'px');
   });
 
-  parallaxGlows.forEach((glow) => {
-    const sectionRect = glow.parentElement.getBoundingClientRect();
-    const distanceFromCenter = (window.innerHeight / 2) - (sectionRect.top + sectionRect.height / 2);
+  parallaxGlows.forEach((glow, i) => {
+    const sectionRect = glowRects[i];
+    const distanceFromCenter = viewportMid - (sectionRect.top + sectionRect.height / 2);
     const shift = Math.max(-40, Math.min(40, distanceFromCenter * 0.035));
     glow.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(1.06)`;
   });

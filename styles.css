@@ -20,6 +20,12 @@
 
 html{ scroll-behavior: smooth; }
 
+/* Lenis drives scrolling itself when active; native smooth scrolling on top of
+   it makes wheel input feel doubled/sluggish. Keep native smooth as fallback. */
+html.lenis, html.lenis body{ height: auto; }
+html.lenis{ scroll-behavior: auto; }
+.lenis.lenis-stopped{ overflow: hidden; }
+
 body{
   background: var(--bg-deep-2);
   color: var(--cream);
@@ -1856,8 +1862,9 @@ html {
 }
 .memory-card.flipped { transform: translateZ(72px) rotateY(180deg) scale(1.07); box-shadow: 0 26px 46px -12px rgba(0,0,0,0.7), 0 0 30px -8px rgba(227,181,103,0.4); z-index: 6; }
 .memory-card.matched {
+  /* Keep opacity at 1: any value < 1 flattens the preserve-3d context and
+     backface-culls the rotated .card-front, making matched pictures go blank. */
   transform: translateZ(0) rotateY(180deg) scale(0.95);
-  opacity: 0.85;
   animation: cardMatchPulse 1.05s cubic-bezier(.3,1.2,.4,1);
   z-index: 4;
 }
@@ -2794,6 +2801,15 @@ body::after{
     inset 0 1px 0 rgba(255,255,255,0.07);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+}
+/* The large cards are on screen for a long time and the reason cards are
+   transformed on every scroll frame — a live backdrop blur there forces the
+   browser to re-composite the page constantly. The gradients/shadows already
+   give the glass look, so drop the blur on these bigger surfaces only. */
+.reason-card,
+.together-unit{
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 .letter-unit{ transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
 .letter-unit:hover{
